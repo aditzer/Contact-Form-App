@@ -105,7 +105,7 @@ class _ViewFormsScreenState extends State<ViewFormsScreen> {
             children: [
               Image.asset("assets/images/error.png"),
               const SizedBox(height: 20),
-              Text(message, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: primaryColor),)
+              Text(message, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: primaryColor))
             ],
           ),
         ),
