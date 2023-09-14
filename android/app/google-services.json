@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "730701042793",
+    "project_id": "contact-form-app-69d2c",
+    "storage_bucket": "contact-form-app-69d2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730701042793:android:1d9ecd6189093a0b70fef8",
+        "android_client_info": {
+          "package_name": "com.aditi.contact_form_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBesoK0RD7YVYoNCsxsfdxBPvxfhECvqB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
