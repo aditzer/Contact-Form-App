@@ -1,5 +1,6 @@
 # Contact Form App
-This is a Flutter using which users can fill a contact form which will be stored in  firestore database. I have also added additional functionality using which submitted forms can be seen.
+This is a Flutter using which users can fill a contact form which will be stored in  firestore database.
+*I have also added additional functionality using which all the submitted forms can be seen.*
 
 To access the apk and demo video of the app go to this link: https://drive.google.com/drive/folders/1PGlf8NJ7HUixS5ROKBcyV7aV_Iq1SU9Y?usp=sharing
 
@@ -40,3 +41,8 @@ The app allows users to submit a form and also read all forms which have been su
 7. If adding was successful then ContactFormLoaded state is generated otherwise ContactFormError State is generated.
    
 ![view_all_forms_diagram](https://github.com/aditzer/Contact-Form-App/assets/53402554/52cf1580-c9a4-479c-9497-552d1a21d4c9)
+
+### Error Handling
+1. When user tries to submit form without internet connection or if any error occurrs while adding the data to firestore, the error snackbar will be shown.
+2. When user tries to view all forms without internet connection or if any error occurrs while fetching the data from firestore, the error screen will be shown.
+3. If internet connection is back on again, user can refresh and data will be fetched.
