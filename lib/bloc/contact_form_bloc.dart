@@ -12,6 +12,7 @@ class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
   ContactFormBloc(this._fireStoreRepository) : super(ContactFormInitial()) {
     on<LoadContactForms>((event, emit) async {
       try {
+        // emit the loading state, fetch the forms from repository and if success the return the loaded state
         emit(ContactFormLoading());
         final stream = await _fireStoreRepository.getForms();
         final forms = await stream.first;

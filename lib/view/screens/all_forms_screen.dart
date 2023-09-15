@@ -3,8 +3,8 @@ import 'package:contact_form_app/common/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../common/constants/ui_constants.dart';
 import '../../model/user_form.dart';
+import '../widgets/custom_loading_widget.dart';
 import '../widgets/custom_snackbar.dart';
 import '../widgets/user_form_widget.dart';
 
@@ -20,6 +20,7 @@ class _ViewFormsScreenState extends State<ViewFormsScreen> {
 
   @override
   void initState() {
+    // load all forms upon initialization
     BlocProvider.of<ContactFormBloc>(context).add(LoadContactForms());
     super.initState();
   }
@@ -45,24 +46,14 @@ class _ViewFormsScreenState extends State<ViewFormsScreen> {
           builder: (context, state) {
             if (state is ContactFormLoading) {
               // if we are in loading state
-              return Stack(
-                children: [
-                  // setting background gif animation
-                  Positioned.fill(
-                      child: Image.asset("assets/background.gif",
-                          fit: BoxFit.cover)),
-
-                  // showing loading indicator
-                  const Center(child: customLoadingIndicator),
-                ],
-              );
+              return const CustomLoadingWidget();
             }
             else if (state is ContactFormError) {
-              return errorScreen(state.message);
+              return _errorScreen(state.message);
             }
             else if (state is ContactFormLoaded) {
               List<UserForm> list = state.forms;
-              return formsList(list);
+              return _formsList(list);
             }
             else {
               return Container();
@@ -73,14 +64,15 @@ class _ViewFormsScreenState extends State<ViewFormsScreen> {
     );
   }
 
-  Widget formsList(List<UserForm> list) {
+  // show list of all forms
+  Widget _formsList(List<UserForm> list) {
     return Stack(
       children: [
         Positioned.fill(
             child: Image.asset("assets/background.gif",
                 fit: BoxFit.cover)),
         RefreshIndicator(
-          onRefresh: ()=> onRefresh(),
+          onRefresh: ()=> _onRefresh(),
           child: ListView.builder(
             itemCount: list.length,
             itemBuilder: (BuildContext context, int index) {
@@ -92,9 +84,10 @@ class _ViewFormsScreenState extends State<ViewFormsScreen> {
     );
   }
 
-  Widget errorScreen(String message) {
+  // when state is errorState, we show error screen
+  Widget _errorScreen(String message) {
     return RefreshIndicator(
-      onRefresh: ()=> onRefresh(),
+      onRefresh: ()=> _onRefresh(),
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: SizedBox(
@@ -113,7 +106,8 @@ class _ViewFormsScreenState extends State<ViewFormsScreen> {
     );
   }
 
-   onRefresh() {
+  // upon pull to refresh fetch data from fireStore again
+   _onRefresh() {
     BlocProvider.of<ContactFormBloc>(context).add(LoadContactForms());
   }
 }

@@ -7,6 +7,7 @@ import '../../bloc/contact_form_bloc.dart';
 import '../../common/constants/ui_constants.dart';
 import '../../model/user_form.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/custom_loading_widget.dart';
 import '../widgets/custom_textfield.dart';
 
 class ContactFormScreen extends StatefulWidget {
@@ -22,8 +23,11 @@ class _ContactFormScreenState extends State<ContactFormScreen> {
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
 
+  late double height, width;
+
   @override
   void dispose() {
+    // to avoid any memory leaks dispose all the textControllers
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
@@ -33,8 +37,8 @@ class _ContactFormScreenState extends State<ContactFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
@@ -53,65 +57,60 @@ class _ContactFormScreenState extends State<ContactFormScreen> {
           }
         },
         child: BlocBuilder<ContactFormBloc, ContactFormState>(
-            builder: (context, state) {
-          if (state is ContactFormLoading) {
-            // if we are in loading state
-            return Stack(
-              children: [
-                // setting background gif animation
-                Positioned.fill(
-                    child: Image.asset("assets/background.gif",
-                        fit: BoxFit.cover)),
-
-                // showing loading indicator
-                const Center(child: customLoadingIndicator),
-              ],
-            );
-          } else {
-            // not loading state
-            return Stack(
-              children: [
-                // setting background gif animation
-                Positioned.fill(
-                    child: Image.asset("assets/background.gif",
-                        fit: BoxFit.cover)),
-
-                // setting all textFields and submit button
-                ListView(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: width * 0.1, vertical: 20),
-                  children: [
-                    Icon(Icons.message, color: Colors.white, size: width * 0.3),
-                    const SizedBox(height: 20),
-                    CustomTextField(
-                        controller: _nameController,
-                        hintText: "Enter your name",
-                        iconData: Icons.person),
-                    const SizedBox(height: 10),
-                    CustomTextField(
-                        controller: _emailController,
-                        hintText: "Enter your email",
-                        iconData: Icons.mail),
-                    const SizedBox(height: 10),
-                    CustomTextField(
-                        controller: _phoneController,
-                        hintText: "Enter your phone number",
-                        iconData: Icons.call),
-                    const SizedBox(height: 10),
-                    CustomTextField(
-                        controller: _addressController,
-                        hintText: "Enter your address",
-                        iconData: Icons.house),
-                    SizedBox(height: height * 0.05),
-                    CustomButton(
-                        buttonText: "Submit", onTap: () => _onTapSubmit())
-                  ],
-                ),
-              ],
-            );
-          }
+          builder: (context, state) {
+            if (state is ContactFormLoading) {
+              // if we are in loading state
+              return const CustomLoadingWidget();
+            } else {
+              // not loading state
+              return _contactFormScreen();
+            }
         }),
       ),
+    );
+  }
+
+  // the main contact form ui
+  Widget _contactFormScreen() {
+    return Stack(
+      children: [
+        // setting background gif animation
+        Positioned.fill(
+            child: Image.asset("assets/background.gif",
+                fit: BoxFit.cover)),
+
+        // setting all textFields and submit button
+        ListView(
+          padding: EdgeInsets.symmetric(
+              horizontal: width * 0.1, vertical: 20),
+          children: [
+            Icon(Icons.message, color: Colors.white, size: width * 0.3),
+            const SizedBox(height: 20),
+            CustomTextField(
+                controller: _nameController,
+                hintText: "Enter your name",
+                iconData: Icons.person),
+            const SizedBox(height: 10),
+            CustomTextField(
+                controller: _emailController,
+                hintText: "Enter your email",
+                iconData: Icons.mail),
+            const SizedBox(height: 10),
+            CustomTextField(
+                controller: _phoneController,
+                hintText: "Enter your phone number",
+                iconData: Icons.call),
+            const SizedBox(height: 10),
+            CustomTextField(
+                controller: _addressController,
+                hintText: "Enter your address",
+                iconData: Icons.house),
+            SizedBox(height: height * 0.05),
+            CustomButton(
+                buttonText: "Submit", onTap: () => _onTapSubmit())
+          ],
+        ),
+      ],
     );
   }
 
@@ -132,13 +131,13 @@ class _ContactFormScreenState extends State<ContactFormScreen> {
   // check if all textField have valid data
   bool _allFieldsValid(String name, String email, String phone, String address) {
     if (name.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(customSnackBar("Name can not be empty!"));
+      ScaffoldMessenger.of(context).showSnackBar(invalidNameSnackBar);
     } else if (!EmailValidator.validate(email)) {
-      ScaffoldMessenger.of(context).showSnackBar(customSnackBar("Invalid Email!"));
+      ScaffoldMessenger.of(context).showSnackBar(invalidEmailSnackBar);
     } else if (phone.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(customSnackBar("Phone number can not be empty!"));
+      ScaffoldMessenger.of(context).showSnackBar(invalidPhoneSnackBar);
     } else if (address.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(customSnackBar("Address can not be empty!"));
+      ScaffoldMessenger.of(context).showSnackBar(invalidAddressSnackBar);
     } else {
       return true;
     }

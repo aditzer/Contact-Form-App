@@ -2,6 +2,7 @@ import 'package:contact_form_app/common/theme/app_theme.dart';
 import 'package:contact_form_app/model/user_form.dart';
 import 'package:flutter/material.dart';
 
+// user form widget
 class UserFormWidget extends StatelessWidget {
   final UserForm userForm;
   const UserFormWidget({super.key, required this.userForm});
@@ -9,7 +10,6 @@ class UserFormWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
@@ -30,6 +30,7 @@ class UserFormWidget extends StatelessWidget {
                 children: [
                   const Icon(Icons.email, color: primaryColor),
                   const SizedBox(width: 15),
+                  // use expanded so that even if text is too long the pixels don't overflow and text goes to next line
                   Expanded(child: Text(userForm.email, style: const TextStyle(fontSize: 18, color: primaryColor))),
                 ],
               ),

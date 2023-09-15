@@ -15,6 +15,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // stop offline caching in fireStore so that latest data is shown
   await FirebaseFirestore.instance.clearPersistence();
   runApp(const MyApp());
 }
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         theme: appTheme,
         initialRoute: '/',
         routes: {
+          // define routes for different screens in your app
           '/': (context) => const HomeScreen(),
           '/contactForm': (context) => const ContactFormScreen(),
           '/viewForms': (context) => const ViewFormsScreen(),

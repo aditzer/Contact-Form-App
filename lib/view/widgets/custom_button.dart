@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../common/theme/app_theme.dart';
 
+// Custom button widget
 class CustomButton extends StatelessWidget {
   final String buttonText;
   final Function onTap;

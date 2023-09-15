@@ -8,7 +8,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.green,
@@ -25,12 +24,14 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Contact Us button will navigate us to contactFormScreen
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: width*0.1),
                     width: double.infinity,
                     child: CustomButton(buttonText: "Contact Us", onTap: () => Navigator.of(context).pushNamed('/contactForm')),
                   ),
                   const SizedBox(height: 20),
+                  // View forms button will navigate us to viewFormsScreen
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: width*0.1),
                     width: double.infinity,
